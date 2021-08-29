@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: config-refresh-el
+spec:
+  serviceAccountName: tekton-ci-listener
+  triggers:
+    - triggerRef: config-refresh-trigger
+  resources:
+    kubernetesResource:
+      serviceType: NodePort

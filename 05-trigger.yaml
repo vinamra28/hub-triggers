@@ -1,0 +1,24 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: config-refresh-trigger
+spec:
+  interceptors:
+    - ref:
+        name: "github"
+      params:
+        - name: "secretRef"
+          value:
+            secretName: ci-webhook
+            secretKey: secret
+        - name: "eventTypes"
+          value: ["push"]
+    - ref:
+        name: "cel"
+      params:
+        - name: "filter"
+          value: body.repository.full_name == 'vinamra28/hub' && body.ref == 'refs/heads/trigger-config'
+  bindings:
+    - ref: tekton-hub-github-base
+  template:
+    ref: config-refresh-template
