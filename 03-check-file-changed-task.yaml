@@ -27,7 +27,7 @@ spec:
 
         for commit in commits:
           modifiedFiles = commit["modified"]
-          if "config.yaml" in modifiedFiles:
+          if "$(params.filename)" in modifiedFiles:
             contains = True
             break
 
